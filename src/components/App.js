@@ -24,7 +24,7 @@ class App extends Component {
     if (event.key === "ArrowRight") {
       this.setState((prevState) => ({
         ballPosition: {
-          left: parseInt(prevState.ballPosition.left) + 5 + "px"
+          left: parseInt(prevState.ballPosition.left) + -5 + "px"
         }
       }));
     }
