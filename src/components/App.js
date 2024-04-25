@@ -1,54 +1,37 @@
-import React, { Component } from "react";
-import "../styles/App.css";
+import { useEffect, useState } from "react";
+import "./App.css";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      renderBall: false,
-      posi: 0,
-      ballPosition: { right: "0px" },
+const App = () => {
+  const [showBall, setShowBall] = useState(false);
+  const [ballPosition, setBallPosition] = useState(0);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowRight") {
+      setBallPosition((prev) => prev + 5);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
     };
-    this.renderChoice = this.renderBallOrButton.bind(this);
-    this.buttonClickHandler = this.buttonClickHandler.bind(this);
-    this.handleKeyUp = this.handleKeyUp.bind(this);
-  }
+  }, []);
 
-  buttonClickHandler() {
-    this.setState({
-      renderBall: true
-    });
-  }
+  const handleStartButton = () => setShowBall(true);
 
-  handleKeyUp(event) {
-    if (event.key === "ArrowRight") {
-      this.setState((prevState) => ({
-        ballPosition: {
-          right: parseInt(prevState.ballPosition.right) + 5 + "px"
-        }
-      }));
-    }
-  }
+  const renderBallOrButton = () =>
+    showBall ? (
+      <div className="ball" style={{ left: ballPosition + "px" }}>
+        ball
+      </div>
+    ) : (
+      <button onClick={handleStartButton} className="start">
+        start
+      </button>
+    );
 
-  componentDidMount() {
-    document.addEventListener("keyup", this.handleKeyUp);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("keyup", this.handleKeyUp);
-  }
-
-  renderBallOrButton() {
-    if (this.state.renderBall) {
-      return <div className="ball" style={this.state.ballPosition}></div>;
-    } else {
-      return <button className="start" onClick={this.buttonClickHandler}>Start</button>;
-    }
-  }
-
-  render() {
-    return <div className="playground">{this.renderBallOrButton()}</div>;
-  }
-}
+  return <div className="playground">{renderBallOrButton()}</div>;
+};
 
 export default App;
