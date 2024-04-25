@@ -1,11 +1,13 @@
+body html .root {
+  height: 100%;
+}
+
 .playground {
   width: 50%;
   height: 50%;
   margin: auto;
 }
-body html .root {
-  height: 100%;
-}
+
 .ball {
   background-color: black;
   box-shadow: 0 10px 10px -6px;

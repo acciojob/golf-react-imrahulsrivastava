@@ -18,15 +18,13 @@ const App = () => {
     };
   }, []);
 
-  const handleStartButton = () => setShowBall(true);
-
   const renderBallOrButton = () =>
     showBall ? (
-      <div className="ball" style={{ left: ballPosition + "px" }}>
+      <div className="ball" style={{ right: ballPosition + "px" }}>
         ball
       </div>
     ) : (
-      <button onClick={handleStartButton} className="start">
+      <button onClick={() => setShowBall(true)} className="start">
         start
       </button>
     );
