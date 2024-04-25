@@ -7,11 +7,11 @@ class App extends Component {
     this.state = {
       renderBall: false,
       posi: 0,
-      ballPosition: { left: "0px" },
+      ballPosition: { right: "0px" },
     };
     this.renderChoice = this.renderBallOrButton.bind(this);
     this.buttonClickHandler = this.buttonClickHandler.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
   }
 
   buttonClickHandler() {
@@ -20,22 +20,22 @@ class App extends Component {
     });
   }
 
-  handleKeyDown(event) {
+  handleKeyUp(event) {
     if (event.key === "ArrowRight") {
       this.setState((prevState) => ({
         ballPosition: {
-          left: parseInt(prevState.ballPosition.left) + -5 + "px"
+          right: parseInt(prevState.ballPosition.right) + 5 + "px"
         }
       }));
     }
   }
 
   componentDidMount() {
-    document.addEventListener("keydown", this.handleKeyDown);
+    document.addEventListener("keyup", this.handleKeyUp);
   }
 
   componentWillUnmount() {
-    document.removeEventListener("keydown", this.handleKeyDown);
+    document.removeEventListener("keyup", this.handleKeyUp);
   }
 
   renderBallOrButton() {
