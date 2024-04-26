@@ -1,41 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { Component } from "react";
 import "../styles/App.css";
 
-function App() {
-  const [showBall, setShowBall] = useState(false);
-  const [ballPosition, setBallPosition] = useState(0);
+class App extends Component {
+  constructor(props) {
+    super(props);
 
-  const RenderChoice = () =>
-    showBall ? (
-      <div className="ball" style={{ left: ballPosition + "px" }}></div>
-    ) : (
-      <button className="start" onClick={buttonClickHandler}>
-        start
-      </button>
-    );
-
-  const buttonClickHandler = () => setShowBall(!showBall);
-
-  const handleKeyDown = (e) => {
-    if (e.key === "ArrowRight" || e.keyCode === 39) {
-      setBallPosition((position) => position + 5);
-    } else if (e.key === "ArrowLeft" || e.keyCode === 37) {
-      setBallPosition((position) => position - 5);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
+    this.state = {
+      renderBall: false,
+      posi: 0,
+      ballPosition: { left: "0px" },
     };
-  }, []);
 
-  return (
-    <div className="playground">
-      <RenderChoice />
-    </div>
-  );
+    this.renderChoice = this.renderChoice.bind(this);
+    this.buttonClickHandler = this.buttonClickHandler.bind(this);
+  }
+
+  buttonClickHandler() {
+    this.setState({ renderBall: true });
+  }
+
+  renderChoice() {
+    if (this.state.renderBall === false) {
+      return (
+        <button className="start" onClick={this.buttonClickHandler}>
+          Click For One Ball
+        </button>
+      );
+    } else if (this.state.renderBall === true) {
+      return <div className="ball" style={this.state.ballPosition}></div>;
+    }
+  }
+
+  componentDidMount() {
+    document.addEventListener("keydown", (e) => {
+      if (e.keyCode === 39) {
+        this.setState({
+          ballPosition: { left: this.state.posi + 5 + "px" },
+          posi: this.state.posi + 5,
+        });
+      }
+    });
+  }
+
+  render() {
+    return <div className="playground">{this.renderChoice()}</div>;
+  }
 }
 
 export default App;
